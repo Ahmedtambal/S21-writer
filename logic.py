@@ -37,9 +37,7 @@ if "weaknesses" not in st.session_state:
     st.session_state.weaknesses = []
 if "checklist" not in st.session_state:
     st.session_state.checklist = []
-    
-    for key, default_value in session_vars.items():
-        st.session_state.setdefault(key, default_value)
+
 
 # Initialize client and session state when module loads
 client = initialize_openai_client()
