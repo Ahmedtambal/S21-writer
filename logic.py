@@ -41,7 +41,6 @@ if "checklist" not in st.session_state:
 
 # Initialize client and session state when module loads
 client = initialize_openai_client()
-initialize_session_state()
 
 
 def extract_text_from_image(uploaded_file):
