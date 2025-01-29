@@ -1,0 +1,26 @@
+# Core dependencies
+streamlit==1.32.0
+python-docx==0.8.11
+docx2pdf==0.1.8
+pytesseract==0.3.10
+opencv-python-headless==4.9.0.80
+Pillow==10.1.0
+numpy==1.26.4
+openai==1.12.0
+python-dotenv==1.0.0
+
+# OCR and image processing
+pytesseract==0.3.10
+opencv-python-headless==4.9.0.80
+Pillow==10.1.0
+
+# OpenAI and API integration
+openai==1.12.0
+
+# Utility libraries
+python-dotenv==1.0.0
+numpy==1.26.4
+
+# PDF and document handling
+python-docx==0.8.11
+docx2pdf==0.1.8
