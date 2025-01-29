@@ -19,17 +19,17 @@ import platform
 # 1) INITIALIZE SESSION STATE
 # =======================
 if "analysis_done" not in st.session_state:
-    st.session_state["analysis_done"] = False
+    st.session_state.analysis_done = False  # Did we run compliance check?
 if "docx_stream" not in st.session_state:
-    st.session_state["docx_stream"] = None
+    st.session_state.docx_stream = None
 if "pdf_stream" not in st.session_state:
-    st.session_state["pdf_stream"] = None
+    st.session_state.pdf_stream = None
 if "strengths" not in st.session_state:
-    st.session_state["strengths"] = []
+    st.session_state.strengths = []
 if "weaknesses" not in st.session_state:
-    st.session_state["weaknesses"] = []
+    st.session_state.weaknesses = []
 if "checklist" not in st.session_state:
-    st.session_state["checklist"] = []
+    st.session_state.checklist = []
 
 try:
     import streamlit as st
