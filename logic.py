@@ -1,46 +1,43 @@
-from datetime import datetime  # Ensure this import exists at the top
-from io import BytesIO
+import streamlit as st
+import openai
+import pytesseract
 import os
 import tempfile
-import streamlit as st
 import cv2
 from docx import Document
-from docx.shared import RGBColor, Inches
-from docx2pdf import convert  # <-- for converting .docx to .pdf
 from docx.enum.text import WD_ALIGN_PARAGRAPH
-from PIL import Image
+from docx.shared import RGBColor, Inches
+from docx2pdf import convert
+from io import BytesIO
+from datetime import datetime
 import numpy as np
-import openai 
-from openai import OpenAI
-import pytesseract
 
-# Initialize OpenAI client securely
-def initialize_openai_client():
-    """Initialize OpenAI client securely."""
-    try:
-        # Instead of creating an OpenAI(...) instance,
-        # just set openai.api_key
-        openai.api_key = st.secrets["OPENAI_API_KEY"]
-        return True
-    except Exception as e:
-        st.error(f"Failed to initialize OpenAI client: {str(e)}")
-        raise
+# =======================
+# 1) INITIALIZE SESSION STATE
+# =======================
 if "analysis_done" not in st.session_state:
-    st.session_state.analysis_done = False  # Did we run compliance check?
+    st.session_state["analysis_done"] = False
 if "docx_stream" not in st.session_state:
-    st.session_state.docx_stream = None
+    st.session_state["docx_stream"] = None
 if "pdf_stream" not in st.session_state:
-    st.session_state.pdf_stream = None
+    st.session_state["pdf_stream"] = None
 if "strengths" not in st.session_state:
-    st.session_state.strengths = []
+    st.session_state["strengths"] = []
 if "weaknesses" not in st.session_state:
-    st.session_state.weaknesses = []
+    st.session_state["weaknesses"] = []
 if "checklist" not in st.session_state:
-    st.session_state.checklist = []
+    st.session_state["checklist"] = []
 
+# =======================
+def initialize_openai_api():
+    """Set the API key from Streamlit secrets or any other source."""
+    try:
+        openai.api_key = st.secrets["OPENAI_API_KEY"]
+    except Exception as e:
+        st.error(f"Failed to set OpenAI API key: {str(e)}")
+        raise
 
-# Initialize client and session state when module loads
-client = initialize_openai_client()
+initialize_openai_api()
 
 
 def extract_text_from_image(uploaded_file):
