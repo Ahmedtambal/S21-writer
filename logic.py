@@ -16,12 +16,15 @@ import pytesseract
 
 # Initialize OpenAI client securely
 def initialize_openai_client():
+    """Initialize OpenAI client securely."""
     try:
-        return OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
+        # Instead of creating an OpenAI(...) instance,
+        # just set openai.api_key
+        openai.api_key = st.secrets["OPENAI_API_KEY"]
+        return True
     except Exception as e:
         st.error(f"Failed to initialize OpenAI client: {str(e)}")
         raise
-
 # Initialize session state variables
 def initialize_session_state():
     session_vars = {
@@ -296,13 +299,13 @@ def analyze_compliance(post_text):
 # Use the client to create a chat completion
         # Query the GPT model
         # Use the client to create a chat completion
-        response = client.chat.completions.create(
+    try:
+        response = openai.ChatCompletion.create(
             model="gpt-4",
             messages=[
                 {"role": "user", "content": prompt}
             ],
         )
-
         # Parse the response
         analysis = response.choices[0].message.content
         # Create compliance table
