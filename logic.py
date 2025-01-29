@@ -39,6 +39,11 @@ def initialize_openai_api():
 
 initialize_openai_api()
 
+# Set Tesseract path based on OS
+if platform.system() == 'Windows':
+    pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+else:  # For Linux (Streamlit Cloud) and macOS
+    pytesseract.pytesseract.tesseract_cmd = '/usr/bin/tesseract'
 
 def extract_text_from_image(uploaded_file):
     """Extract text from image using Tesseract OCR with preprocessing."""
