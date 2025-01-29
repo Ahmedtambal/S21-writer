@@ -15,7 +15,15 @@ from openai import OpenAI
 import pytesseract
 
 # Load environment variables from .env file
-client = OpenAI(api_key="")
+try:
+    import streamlit as st
+    openai.api_key = st.secrets.openai.api_key
+except (AttributeError, ModuleNotFoundError, FileNotFoundError):
+    # Fallback for non-Streamlit environments
+    import os
+    openai.api_key = os.getenv("OPENAI_API_KEY", "")
+    if not openai.api_key:
+        raise ValueError("OpenAI API key not found in environment variables or Streamlit secrets")
 
 
 if "analysis_done" not in st.session_state:
