@@ -14,30 +14,31 @@ import openai
 from openai import OpenAI
 import pytesseract
 
-# Load environment variables from .env file
-try:
-    import streamlit as st
-    openai.api_key = st.secrets.openai.api_key
-except (AttributeError, ModuleNotFoundError, FileNotFoundError):
-    # Fallback for non-Streamlit environments
-    import os
-    openai.api_key = os.getenv("OPENAI_API_KEY", "")
-    if not openai.api_key:
-        raise ValueError("OpenAI API key not found in environment variables or Streamlit secrets")
+# Initialize OpenAI client securely
+def initialize_openai_client():
+    try:
+        return OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
+    except Exception as e:
+        st.error(f"Failed to initialize OpenAI client: {str(e)}")
+        raise
 
+# Initialize session state variables
+def initialize_session_state():
+    session_vars = {
+        "analysis_done": False,
+        "docx_stream": None,
+        "pdf_stream": None,
+        "strengths": [],
+        "weaknesses": [],
+        "checklist": []
+    }
+    
+    for key, default_value in session_vars.items():
+        st.session_state.setdefault(key, default_value)
 
-if "analysis_done" not in st.session_state:
-    st.session_state.analysis_done = False  # Did we run compliance check?
-if "docx_stream" not in st.session_state:
-    st.session_state.docx_stream = None
-if "pdf_stream" not in st.session_state:
-    st.session_state.pdf_stream = None
-if "strengths" not in st.session_state:
-    st.session_state.strengths = []
-if "weaknesses" not in st.session_state:
-    st.session_state.weaknesses = []
-if "checklist" not in st.session_state:
-    st.session_state.checklist = []
+# Initialize client and session state when module loads
+client = initialize_openai_client()
+initialize_session_state()
 
 
 def extract_text_from_image(uploaded_file):
