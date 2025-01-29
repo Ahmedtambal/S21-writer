@@ -296,18 +296,18 @@ def analyze_compliance(post_text):
     # Build the prompt
     prompt = build_prompt(post_text, rules)
 
-
+    try:
         # Query the GPT model
 # Use the client to create a chat completion
         # Query the GPT model
         # Use the client to create a chat completion
-    try:
-        response = openai.ChatCompletion.create(
+        response = client.chat.completions.create(
             model="gpt-4",
             messages=[
                 {"role": "user", "content": prompt}
             ],
         )
+
         # Parse the response
         analysis = response.choices[0].message.content
         # Create compliance table
