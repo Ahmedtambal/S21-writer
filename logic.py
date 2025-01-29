@@ -25,16 +25,18 @@ def initialize_openai_client():
     except Exception as e:
         st.error(f"Failed to initialize OpenAI client: {str(e)}")
         raise
-# Initialize session state variables
-def initialize_session_state():
-    session_vars = {
-        "analysis_done": False,
-        "docx_stream": None,
-        "pdf_stream": None,
-        "strengths": [],
-        "weaknesses": [],
-        "checklist": []
-    }
+if "analysis_done" not in st.session_state:
+    st.session_state.analysis_done = False  # Did we run compliance check?
+if "docx_stream" not in st.session_state:
+    st.session_state.docx_stream = None
+if "pdf_stream" not in st.session_state:
+    st.session_state.pdf_stream = None
+if "strengths" not in st.session_state:
+    st.session_state.strengths = []
+if "weaknesses" not in st.session_state:
+    st.session_state.weaknesses = []
+if "checklist" not in st.session_state:
+    st.session_state.checklist = []
     
     for key, default_value in session_vars.items():
         st.session_state.setdefault(key, default_value)
