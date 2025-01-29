@@ -11,6 +11,8 @@ from docx2pdf import convert
 from io import BytesIO
 from datetime import datetime
 import numpy as np
+import platform
+
 
 # =======================
 # 1) INITIALIZE SESSION STATE
