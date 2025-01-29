@@ -1,4 +1,22 @@
 import streamlit as st
+
+
+# --- Initialize needed session state keys FIRST ---
+if "analysis_done" not in st.session_state:
+    st.session_state["analysis_done"] = False
+if "docx_stream" not in st.session_state:
+    st.session_state["docx_stream"] = None
+if "pdf_stream" not in st.session_state:
+    st.session_state["pdf_stream"] = None
+if "strengths" not in st.session_state:
+    st.session_state["strengths"] = []
+if "weaknesses" not in st.session_state:
+    st.session_state["weaknesses"] = []
+if "checklist" not in st.session_state:
+    st.session_state["checklist"] = []
+
+
+
 from logic import analyze_compliance, generate_pdf_from_docx, generate_word_doc, extract_text_from_image
 
 def main():
