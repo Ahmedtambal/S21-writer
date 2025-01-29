@@ -30,16 +30,14 @@ if "weaknesses" not in st.session_state:
 if "checklist" not in st.session_state:
     st.session_state["checklist"] = []
 
-# =======================
-def initialize_openai_api():
-    """Set the API key from Streamlit secrets or any other source."""
-    try:
-        openai.api_key = st.secrets["OPENAI_API_KEY"]
-    except Exception as e:
-        st.error(f"Failed to set OpenAI API key: {str(e)}")
-        raise
-
-initialize_openai_api()
+try:
+    import streamlit as st
+    client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
+except (AttributeError, ModuleNotFoundError):
+    import os
+    client = OpenAI(api_key=os.getenv("OPENAI_API_KEY", ""))
+    if not client.api_key:
+        raise ValueError("OpenAI API key not found in environment variables or Streamlit secrets")
 
 # Set Tesseract path based on OS
 if platform.system() == 'Windows':
