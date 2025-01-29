@@ -17,7 +17,7 @@ def main():
         handle_image_input(title_input,  references_input)
 
     # After the user runs the check, if we have results in session_state, show the download options
-    if st.session_state.analysis_done and st.session_state.docx_stream:
+    if st.session_state.analysis_done and st.session_state.docx_stream is not None:
         st.subheader("Download Report")
         format_choice = st.selectbox("Select download format", ["Word", "PDF"], key="format_choice")
 
